@@ -5,6 +5,7 @@ showNotes();
 let btnAdd = document.getElementById(`btnAdd`);
 btnAdd.addEventListener(`click`, function(e){
     let btnText = document.getElementById(`btnText`);
+    let btnTitle = document.getElementById(`btnTitle`);
     let notes = localStorage.getItem(`notes`);
     if(notes == null)
     {
@@ -15,9 +16,15 @@ btnAdd.addEventListener(`click`, function(e){
         notesObj = JSON.parse(notes);
     }
 
-    notesObj.push(btnText.value);
+    let myObj = {
+        title: btnTitle.value,
+        text: btnText.value
+    }
+    notesObj.push(myObj);
+
     localStorage.setItem("notes", JSON.stringify(notesObj));
-    btnText.value = ""; 
+    btnText.value = ""; // After pressing the button "Add Note", this .vaule = "" will clear the entering area 
+    btnTitle.value = ""; // After pressing the button "Add Note", this .vaule = "" will clear the entering area
     console.log(notesObj)
 
     showNotes();
@@ -41,8 +48,8 @@ function showNotes() {
     notesObj.forEach(function (element, index) {
         html += `<div class="notesCard my-2 mx-2 card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Note ${index + 1}</h5>
-            <p class="card-text">${element}</p>
+            <h5 class="card-title">${element.title}</h5>
+            <p class="card-text">${element.text}</p>
             <button class="btn btn-primary" id="${index}" onclick="deleteNote(this.id)">Delete Note</button>
         </div>
     </div>`
